@@ -3,7 +3,7 @@ import { findRoutes } from "./fndUser.routes";
 import { userRoutes } from "./user.routes";
 import  express from "express";   
 import { countryRoutes } from "./country.routes";
-import { genreRoutes } from "./genre.routes";
+import { genreRoutes } from "./genrder.routes";
 import { areaRoutes } from "./area.routes";
 import { languageRoutes } from "./language.routes";
 import { toolRoutes } from "./tool.routes";

@@ -1,15 +1,14 @@
-
 import { prisma } from "../../../../prisma/clint";
 import { Gender } from "@prisma/client";
-class ListGenresUseCase {
+class ListGenderUseCase {
   async execute(): Promise<Gender[]>{ 
-    const allGenres = await prisma.gender.findMany({
+    const allGenders = await prisma.gender.findMany({
       include:{
         Profile: true
       }
     });
-    console.dir(allGenres, { depth: null });
-    return allGenres;
+    console.dir(allGenders, { depth: null });
+    return allGenders;
   }
 }
-export { ListGenresUseCase };
+export { ListGenderUseCase };
