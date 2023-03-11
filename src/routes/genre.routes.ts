@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { CreateGenreController } from "../modules/genres/useCases/createGenre/CreateGenresController";
-import { ListGenresController } from "../modules/genres/useCases/listGenre/ListGenresControllers";
+import { CreateGenreController } from "../modules/genres/useCases/createGender/CreateGenresController";
+import { ListGenresController } from "../modules/genres/useCases/listGender/ListGenresControllers";
 
 const createGenreController = new CreateGenreController();
 const listGenresController = new ListGenresController();

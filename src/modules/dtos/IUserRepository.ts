@@ -8,7 +8,7 @@ interface ICreateUserDTO{
   bio: string;
   genderName: undefined;
   paisLabel: undefined;
-  languages: undefined;
+  languages: undefined[];
   areas: undefined[];
   links: undefined[];
   uploadedPhoto: Express.Multer.File|undefined;

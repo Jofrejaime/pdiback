@@ -1,4 +1,4 @@
-import { IAreaDTO } from "../../dtos/IAreaDTO";
+import { IAreaDTO } from "../../../dtos/IAreaDTO";
 import { prisma } from "../../../../prisma/clint";
 import { Area } from "@prisma/client";
 class CreateAreaUseCase {

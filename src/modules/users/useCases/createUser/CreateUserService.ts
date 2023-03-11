@@ -4,6 +4,8 @@ import { User } from "@prisma/client";
 import { createDir } from "../../../../utilities/createDir";
 import { moveFile } from "../../../../utilities/moveFiles";
 import { AddAreaOnProfile } from "../../../areas/useCases/addArea/AddAreaOnProfile";
+import { AddLanguageOnProfile } from "../../../languages/useCases/AddLanguage/AddLanguageOnProfile";
+import { AddToolOnProfile } from "../../../tools/useCases/AddTool/AddToolOnProfile";
 
 class CreateUserUseCase {
   async execute({
@@ -53,6 +55,8 @@ class CreateUserUseCase {
         },
       });
       AddAreaOnProfile(areas, user)
+      AddLanguageOnProfile(languages, user)
+      AddToolOnProfile(tools, user)
       return user;  
     }}
 }

@@ -1,4 +1,4 @@
-import {  IToolDTO } from "../../dtos/IToolDTO";
+import {  IToolDTO } from "../../../dtos/IToolDTO";
 import { prisma } from "../../../../prisma/clint";
 import {  Tool } from "@prisma/client";
 class CreateToolUseCase {

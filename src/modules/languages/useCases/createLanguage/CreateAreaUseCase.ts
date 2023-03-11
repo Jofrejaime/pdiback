@@ -1,4 +1,4 @@
-import {  ILanguageDTO } from "../../dtos/ILanguageDTO";
+import {  ILanguageDTO } from '../../../dtos/ILanguageDTO';
 import { prisma } from "../../../../prisma/clint";
 import { Language } from "@prisma/client";
 class CreateLanguageUseCase {

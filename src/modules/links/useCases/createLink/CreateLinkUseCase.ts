@@ -1,4 +1,4 @@
-import { ILinkDTO } from "../../dtos/ILinkDTO";
+import { ILinkDTO } from "../../../dtos/ILinkDTO";
 import { prisma } from "../../../../prisma/clint";
 import { Link } from "@prisma/client";
 class CreateLinkUseCase {

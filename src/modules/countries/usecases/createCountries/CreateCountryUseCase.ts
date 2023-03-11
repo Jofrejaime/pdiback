@@ -1,14 +1,14 @@
-import { ICrountryDTO } from "../../dtos/ICreateCountries";
+import { ICrountryDTO } from "../../../dtos/ICreateCountries";
 import { prisma } from "../../../../prisma/clint";
-import { Nationality } from "@prisma/client";
+import { Pais } from "@prisma/client";
 class CreateCountryUseCase {
   async execute({
     name,
     acronym1,
     acronym2,
     code,
-  }: ICrountryDTO): Promise<Nationality> {
-    /*  const countryAlreadyExists = await prisma.nationality.findUnique({
+  }: ICrountryDTO): Promise<Pais> {
+    /*  const countryAlreadyExists = await prisma.Pais.findUnique({
       where: {
    
       },
@@ -17,9 +17,9 @@ class CreateCountryUseCase {
       throw new Error("Country Already Exists!");
     }
 */
-    const nacionality = await prisma.nationality.create({
+    const nacionality = await prisma.pais.create({
       data: {
-        name,
+        'label':name,
         acronym1,
         acronym2,
         code,
