@@ -17,9 +17,9 @@ model User {
   email       String    @unique
   profile     Profile?
   projects    Project[]
-  Stars       Star[]
   starsNumber Int?
-  Comments    Comment[]
+  Star        Star[]
+  Comment     Comment[]
 
   @@map("users")
 }
@@ -38,7 +38,7 @@ model Profile {
   genderName        String?
   Pais              Pais?               @relation(fields: [paisLabel], references: [label])
   paisLabel         String?
-  areaofProfile     AreaofProfile[]
+  AreaofProfile     AreaofProfile[]
   LinksOfProfile    LinkOfProfile[]
   LanguageOfProfile LanguageOfProfile[]
   ToolofProfile     ToolofProfile[]
@@ -66,7 +66,7 @@ model Gender {
 }
 
 model Star {
-  user      User    @relation(fields: [userId], references: [id])
+  user      User?   @relation(fields: [userId], references: [id])
   userId    String
   project   Project @relation(fields: [projectId], references: [id])
   projectId String
@@ -86,7 +86,7 @@ model Project {
   audios            Audio[]
   respository_url   String
   Comment           Comment[]
-  stars             Star[]
+  Stars             Star[]
   created_at        DateTime            @default(now())
   updated_at        DateTime            @updatedAt
   LanguageOfProject LanguageOfProject[]
@@ -244,11 +244,11 @@ model Link {
 model Comment {
   id         String   @id @default(uuid())
   content    String
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
   created_at DateTime @default(now())
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String
   Project    Project? @relation(fields: [projectId], references: [id])
-  projectId  String?
+  projectId  String
 
   @@map("commments")
 }

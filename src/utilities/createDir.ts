@@ -1,24 +1,18 @@
 import fs from 'fs';
+import { resolve } from 'path';
  export function createDir(nameDir: string){
-
-  const dir = `./uploads/${nameDir}`;
-  
-  console.log(dir)
+  const dir = `${resolve('uploads')}/${nameDir}`;
       fs.access(dir, (err)=>{
         if(err){
         fs.mkdir(dir, (err)=>{
             if(err)
-            console.log(err, ' algum erro na criação da pasta')
+            throw new Error(' algum erro na criação da pasta')
             else{
-            console.log('Criou a pasta')
-            return nameDir;
-             
+            return dir;
           }
           });
         } else
         console.log(nameDir," já existe")
-        return nameDir
+        return dir
       })
-   
-      return nameDir
   }

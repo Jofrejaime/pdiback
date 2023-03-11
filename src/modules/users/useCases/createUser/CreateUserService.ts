@@ -1,4 +1,4 @@
-import { ICreateUserDTO } from "../../dtos/IUserRepository";
+import { ICreateUserDTO } from "../../../dtos/IUserRepository";
 import { prisma } from "../../../../prisma/clint";
 import { User } from "@prisma/client";
 import { createDir } from "../../../../utilities/createDir";
