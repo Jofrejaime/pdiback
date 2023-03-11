@@ -3,7 +3,7 @@ import { prisma } from "../../../../prisma/clint";
 import { User } from "@prisma/client";
 import { createDir } from "../../../../utilities/createDir";
 import { moveFile } from "../../../../utilities/moveFiles";
-
+import { AddAreaOnProfile } from "../../../areas/useCases/addArea/AddAreaOnProfile";
 
 class CreateUserUseCase {
   async execute({
@@ -21,57 +21,40 @@ class CreateUserUseCase {
     uploadedPhoto,
     userName,
   }: ICreateUserDTO): Promise<User> {
-   const userAlreadyExists = await prisma.user.findUnique({
+    const userAlreadyExists = await prisma.user.findUnique({
       where: {
-       email
+        email,
       },
     });
     if (userAlreadyExists) {
       throw new Error("User Already Exists!");
-    }
+    }else{
 
-
-    if (uploadedPhoto) {
-      console.log(userName, uploadedPhoto);
-      const photo_url = moveFile(uploadedPhoto, userName, true);
-    } else {
-      createDir(userName);
-    }
-console.log(genderName)
-     const label = areas;
-    const user = await prisma.user.create({
-      data: {
-        password,
-        email,
-        userName,
-        profile:{
-          create:{
-            lastName,
-            firstName,
-            paisLabel,
-            'genderName':genderName,
-           /* 'areaofProfile':{
-              create:{
-              'areaLabel':areas
-                }
-            }*/
-          }} 
+      if (uploadedPhoto) {
+        console.log(userName, uploadedPhoto);
+        const photo_url = moveFile(uploadedPhoto, userName, true);
+      } else {
+        createDir(userName);
       }
-    });
-    
-  if(areas){
-      areas.map(async area => await  prisma.profile.update({
-        'where':{'userId': user.id},
-        data:{'areaofProfile': {
-          'create':{
-            'areaLabel': area
-          }
-        }}
-        }
-   ) )
-}
-    return user;
-  }
+  
+      const user = await prisma.user.create({
+        data: {
+          password,
+          email,
+          userName,
+          profile: {
+            create: {
+              lastName,
+              firstName,
+              paisLabel,
+              genderName: genderName,
+            },
+          },
+        },
+      });
+      AddAreaOnProfile(areas, user)
+      return user;  
+    }}
 }
 
 export { CreateUserUseCase };

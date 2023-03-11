@@ -20,6 +20,7 @@ model User {
   starsNumber Int?
   Star        Star[]
   Comment     Comment[]
+  Seguir      Seguir[]
 
   @@map("users")
 }
@@ -42,6 +43,7 @@ model Profile {
   LinksOfProfile    LinkOfProfile[]
   LanguageOfProfile LanguageOfProfile[]
   ToolofProfile     ToolofProfile[]
+  Seguir            Seguir[]
 
   @@map("profiles")
 }
@@ -91,7 +93,6 @@ model Project {
   updated_at        DateTime            @updatedAt
   LanguageOfProject LanguageOfProject[]
   ProjectRepository ProjectRepository?
-  Language          Language[]
   AreaOfProject     AreaOfProject[]
   ToolOfProject     ToolOfProject[]
 
@@ -131,7 +132,7 @@ model Audio {
 model LanguageOfProject {
   Project       Project? @relation(fields: [projectId], references: [id])
   projectId     String
-  Language      Language @relation(fields: [languageLabel], references: [label])
+  Language      Language? @relation(fields: [languageLabel], references: [label])
   languageLabel String
 
   @@id([projectId, languageLabel])
@@ -150,8 +151,6 @@ model Language {
   value             String              @id @default(uuid())
   label             String              @unique
   icon_url          String
-  Project           Project?            @relation(fields: [projectId], references: [id])
-  projectId         String?
   LanguageOfProfile LanguageOfProfile[]
   LanguageOfProject LanguageOfProject[]
 
@@ -169,7 +168,7 @@ model ProjectRepository {
 model AreaofProfile {
   Area      Area?    @relation(fields: [areaLabel], references: [label])
   areaLabel String
-  profile   Profile? @relation(fields: [profileId], references: [id])
+  Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String
 
   @@id([areaLabel, profileId])
@@ -187,7 +186,7 @@ model LinkOfProfile {
 model AreaOfProject {
   Project   Project? @relation(fields: [projectId], references: [id])
   projectId String
-  Area      Area     @relation(fields: [areaLabel], references: [label])
+  Area      Area?    @relation(fields: [areaLabel], references: [label])
   areaLabel String
 
   @@id([projectId, areaLabel])
@@ -206,7 +205,7 @@ model Area {
 model ToolOfProject {
   Project   Project? @relation(fields: [projectId], references: [id])
   projectId String
-  Toll      Tool     @relation(fields: [toolLabel], references: [label])
+  Toll      Tool?   @relation(fields: [toolLabel], references: [label])
   toolLabel String
 
   @@id([projectId, toolLabel])
@@ -259,4 +258,13 @@ model BannedAccount {
   banned_at DateTime @default(now())
 
   @@map("bannedaccounts")
+}
+
+model Seguir {
+  Segidor    User?    @relation(fields: [seguidorId], references: [id])
+  seguidorId String
+  Seguindo   Profile? @relation(fields: [seguindoId], references: [id])
+  seguindoId String
+
+  @@id([seguidorId, seguindoId])
 }
