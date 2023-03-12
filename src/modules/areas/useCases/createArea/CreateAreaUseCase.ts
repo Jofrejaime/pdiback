@@ -13,7 +13,7 @@ value,
       },
     });
     if (countryAlreadyExists) {
-      throw new Error("Country Already Exists!");
+      throw new Error("Area Already Exists!");
     }
 
     const area = await prisma.area.create({

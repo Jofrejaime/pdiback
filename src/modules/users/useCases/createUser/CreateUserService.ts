@@ -34,9 +34,9 @@ class CreateUserUseCase {
 
       if (uploadedPhoto) {
         console.log(userName, uploadedPhoto);
-        const photo_url = moveFile(uploadedPhoto, userName, true);
+        const photo_url = moveFile(uploadedPhoto, userName,true);
       } else {
-        createDir(userName);
+        createDir(`${userName}`);
       }
   
       const user = await prisma.user.create({

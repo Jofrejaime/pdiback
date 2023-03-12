@@ -1,14 +1,14 @@
 import fs from "fs-extra";
 import { resolve } from "path";
 import { createDir } from "./createDir";
-export async function moveFile(
+export function moveFile(
   file: Express.Multer.File | undefined,
   dirName: string,
   isProfile: boolean,
   projectTitle?: string,
   other?: string,
   nameOther?: string
-) {
+){
   if (isProfile && dirName && file) {
     const filename = file.filename;
     const src = `${resolve("uploads")}/${file.filename}`;
@@ -17,20 +17,20 @@ export async function moveFile(
     const fileMoved = fs.move(src, destFinal.toString(), (err) => {
       if (err) console.error(err, " ficheiro não movido ", destFinal);
       console.log("Ficheiro movido em", destFinal);
-      return destFinal;
-    });
+      return `${dirName}/profile/${filename}` ;    });
     console.log(fileMoved, " final");
+    return destFinal
   } else if (projectTitle && !isProfile && file) {
     const filename = file.filename;
     const src = `${resolve("uploads")}/${filename}`;
     const preDest = createDir(`${dirName}/projects/${projectTitle}`);
     const dest = `${preDest}/${filename}`;
-    const fileMoved = fs.move(src, dest, (err) => {
+    fs.move(src, dest, (err) => {
       if (err) console.error(err, " ficheiro não movido");
       console.log(" ficheiro do projecto movido");
-      return dest;
+      return `${dirName}/projects/${projectTitle}/${filename}`;
     });
-    return fileMoved;
+    return dest;
   } else if (
     !isProfile &&
     !projectTitle &&
@@ -40,15 +40,14 @@ export async function moveFile(
     nameOther
   ) {
     const filename = file.filename;
-    const src = `${resolve("uploads")}/${file}`;
-    const preDest = createDir(`${dirName}/${other}/${nameOther}`);
+    const src = `${resolve("uploads")}/${file.filename}`;
+    const preDest = createDir(`${dirName}/${other}`);
     const dest = `${preDest}/${filename}`;
-    const fileMoved = fs.move(src, dest, (err) => {
-      if (err)
-        console.error(err, " Fircheiro não movido por um motivo especifivo");
-      console.log(dest, " ficheiro foi movido com sucesso");
+   
+    fs.move(src, dest.toString(), err=>{
+      if(err) return console.log( err, 'Não moveu o ficheiro')
+      console.log( 'fircheiro movido')
     });
-    return fileMoved;
+    return `${dirName}/${other}/${nameOther}/${filename}`;
   }
-
 }
