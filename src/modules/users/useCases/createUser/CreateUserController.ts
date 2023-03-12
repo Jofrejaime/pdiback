@@ -3,8 +3,6 @@ import { CreateUserUseCase } from "./CreateUserService";
 class CreateUserController {
   async handle(request: Request, response: Response) {
     const uploadedPhoto = request.file;
-    console.log(uploadedPhoto, ' pohoto')
-    
     const {
       email,
       bio,

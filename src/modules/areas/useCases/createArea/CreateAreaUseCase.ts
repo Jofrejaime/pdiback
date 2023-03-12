@@ -7,15 +7,15 @@ value,
    label,
    image_url
   }: IAreaDTO): Promise<Area> {
-    /*  const countryAlreadyExists = await prisma.nationality.findUnique({
+   const countryAlreadyExists = await prisma.area.findUnique({
       where: {
-   
+        label
       },
     });
     if (countryAlreadyExists) {
       throw new Error("Country Already Exists!");
     }
-*/
+
     const area = await prisma.area.create({
       data: {
         label,

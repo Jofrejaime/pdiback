@@ -9,7 +9,7 @@ class ListUsersUseCase {
       },
       include: {
         profile: true,
-        Stars: true,
+        Star: true,
         projects: true,
       },
     });
