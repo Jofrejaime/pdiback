@@ -3,7 +3,7 @@ import { prisma } from "../../../../prisma/clint";
 
 export function AddAreaOnProject(areas:undefined[] | undefined, project: Project){
   if(areas){
-    areas.map(async area => await  prisma.project.update({
+    areas.toString().split(',').map(async area => await  prisma.project.update({
       'where':{'id': project.id},
       data:{
         'AreaOfProject':{

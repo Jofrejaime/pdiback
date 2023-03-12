@@ -6,7 +6,7 @@ class CreateLanguageController {
         const file = request?.file;
     const { value, label, icon_url } = request.body;
     const createLanguages = new CreateLanguageUseCase();
-    const urlImage = moveFile(file, 'languages', false,undefined, label)
+    const urlImage = moveFile(file, 'stacks', false,undefined,'languages',label)
     const result = await createLanguages.execute({
       label,
       'icon_url':`${urlImage}`,

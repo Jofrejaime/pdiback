@@ -6,7 +6,7 @@ class CreateToolController {
     const file = request?.file
     const { value, label, icon_url } = request.body;
     const createTool = new CreateToolUseCase();
-    const urlImage = moveFile(file, 'tools', false,undefined, label)
+    const urlImage = moveFile(file, 'stacks', false,undefined, 'tools',label)
     const result = await createTool.execute({
       label,
       'icon_url':`${urlImage}` ,

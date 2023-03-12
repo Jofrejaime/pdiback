@@ -8,8 +8,7 @@ class CreateAreaController {
     const { value, label, image_url } = request.body;
     const createArea = new CreateAreaUseCase();
     
-    const urlImage = moveFile(file, label, false,undefined)
-
+    const urlImage = moveFile(file, 'stacks', false,undefined, 'areas',label )
 
     const result = await createArea.execute({
       label,

@@ -8,18 +8,19 @@ export function moveFile(
   projectTitle?: string,
   other?: string,
   nameOther?: string
-){
+) {
   if (isProfile && dirName && file) {
     const filename = file.filename;
     const src = `${resolve("uploads")}/${file.filename}`;
-    const dest = createDir(`${dirName}/profile/`);
+    const dest = createDir(`users/${dirName}/profile/`);
     const destFinal = `${dest}/${filename}`;
     const fileMoved = fs.move(src, destFinal.toString(), (err) => {
       if (err) console.error(err, " ficheiro não movido ", destFinal);
       console.log("Ficheiro movido em", destFinal);
-      return `${dirName}/profile/${filename}` ;    });
+     
+    });
     console.log(fileMoved, " final");
-    return destFinal
+    return `${dirName}/profile/${filename}`;
   } else if (projectTitle && !isProfile && file) {
     const filename = file.filename;
     const src = `${resolve("uploads")}/${filename}`;
@@ -41,12 +42,12 @@ export function moveFile(
   ) {
     const filename = file.filename;
     const src = `${resolve("uploads")}/${file.filename}`;
-    const preDest = createDir(`${dirName}/${other}`);
+    const preDest = createDir(`${dirName}/${other}/${nameOther}`);
     const dest = `${preDest}/${filename}`;
-   
-    fs.move(src, dest.toString(), err=>{
-      if(err) return console.log( err, 'Não moveu o ficheiro')
-      console.log( 'fircheiro movido')
+    console.log(dest)
+    fs.move(src, dest.toString(), (err) => {
+      if (err) return console.log(err, "Não moveu o ficheiro");
+      console.log("fircheiro movido");
     });
     return `${dirName}/${other}/${nameOther}/${filename}`;
   }

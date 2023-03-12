@@ -31,12 +31,12 @@ class CreateUserUseCase {
     if (userAlreadyExists) {
       throw new Error("User Already Exists!");
     }else{
-
-      if (uploadedPhoto) {
-        console.log(userName, uploadedPhoto);
-        const photo_url = moveFile(uploadedPhoto, userName,true);
+    
+let photo_url: string | undefined;
+      if (uploadedPhoto) {  
+        photo_url = moveFile(uploadedPhoto, userName,true)
       } else {
-        createDir(`${userName}`);
+        createDir(`${userName[1]}`);
       }
   
       const user = await prisma.user.create({
@@ -50,13 +50,19 @@ class CreateUserUseCase {
               firstName,
               paisLabel,
               genderName: genderName,
+              photo_url
             },
           },
         },
       });
+     
+      if(user) {
+        
       AddAreaOnProfile(areas, user)
       AddLanguageOnProfile(languages, user)
       AddToolOnProfile(tools, user)
+      }
+      
       return user;  
     }}
 }

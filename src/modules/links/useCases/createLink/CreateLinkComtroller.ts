@@ -8,7 +8,7 @@ class CreateLinkController {
       src,
       href } = request.body;
     const createLink = new CreateLinkUseCase();
-    const urlImage = moveFile(file, 'links', false,undefined, name)
+    const urlImage = moveFile(file, 'stacks', false,undefined, 'links',name )
     const result = await createLink.execute({
       name,
       src: `${urlImage}`,

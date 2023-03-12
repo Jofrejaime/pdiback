@@ -1,9 +1,11 @@
+import { Console } from "console";
 import { Response, Request } from "express";
 import { CreateUserUseCase } from "./CreateUserService";
 class CreateUserController {
   async handle(request: Request, response: Response) {
     const uploadedPhoto = request.file;
     const {
+      userName,
       email,
       bio,
       lastName,
@@ -16,11 +18,9 @@ class CreateUserController {
       User,
       userId,
       tools,
-      userName,
       password
     } = request.body;
-    const createUserUseCase = new CreateUserUseCase();
-    console.log(uploadedPhoto, ' ', genderName)
+    const createUserUseCase = new CreateUserUseCase();     
     const result = await createUserUseCase.execute({
       password,
       lastName,
@@ -36,8 +36,9 @@ class CreateUserController {
       User,
       userId,
       tools,
-      userName,
+      userName: userName[1].toString(),
     });
+       
     return response.status(201).json(result);
   }
 }
