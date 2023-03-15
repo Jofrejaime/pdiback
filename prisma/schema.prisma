@@ -150,7 +150,7 @@ model LanguageOfProfile {
 model Language {
   value             String              @id @default(uuid())
   label             String              @unique
-  icon_url          String
+  icon_url          String?
   LanguageOfProfile LanguageOfProfile[]
   LanguageOfProject LanguageOfProject[]
 

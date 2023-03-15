@@ -1,11 +1,16 @@
 import { ICreateUserDTO } from "../../../dtos/IUserRepository";
 import { prisma } from "../../../../prisma/clint";
 import { User } from "@prisma/client";
+import { hash } from "bcrypt";
 import { createDir } from "../../../../utilities/createDir";
 import { moveFile } from "../../../../utilities/moveFiles";
 import { AddAreaOnProfile } from "../../../areas/useCases/addArea/AddAreaOnProfile";
 import { AddLanguageOnProfile } from "../../../languages/useCases/AddLanguage/AddLanguageOnProfile";
 import { AddToolOnProfile } from "../../../tools/useCases/AddTool/AddToolOnProfile";
+import { AppError } from "../../../../errors/AppErrors";
+import { addPhotoProfile } from "../addedProtoProfile/AddedProtoProfile";
+import fs, { remove } from "fs-extra";
+import { resolve } from "path";
 
 class CreateUserUseCase {
   async execute({
@@ -25,23 +30,17 @@ class CreateUserUseCase {
   }: ICreateUserDTO): Promise<User> {
     const userAlreadyExists = await prisma.user.findUnique({
       where: {
-        email,
+        email, 
       },
     });
     if (userAlreadyExists) {
-      throw new Error("User Already Exists!");
-    }else{
-    
-let photo_url: string | undefined;
-      if (uploadedPhoto) {  
-        photo_url = moveFile(uploadedPhoto, userName,true)
-      } else {
-        createDir(`${userName[1]}`);
-      }
-  
+      throw new AppError("User Already Exists!");
+    } else {
+      const passwordHash = await hash(password, 8);
+
       const user = await prisma.user.create({
         data: {
-          password,
+          password: passwordHash,
           email,
           userName,
           profile: {
@@ -50,21 +49,27 @@ let photo_url: string | undefined;
               firstName,
               paisLabel,
               genderName: genderName,
-              photo_url
             },
           },
         },
       });
-     
-      if(user) {
-        
-      AddAreaOnProfile(areas, user)
-      AddLanguageOnProfile(languages, user)
-      AddToolOnProfile(tools, user)
+
+      if (uploadedPhoto && user) {
+        addPhotoProfile(uploadedPhoto, user);
+      } else if (uploadedPhoto && !user) {
+      await fs.remove(`${resolve("uploads/")}/${uploadedPhoto.filename}`)
+          .then(() => console.log("Removido com succeo"))
+          .catch((e) => console.log("Não removeu nada"));
       }
-      
-      return user;  
-    }}
+      if (user) {
+        AddAreaOnProfile(areas, user);
+        AddLanguageOnProfile(languages, user);
+        AddToolOnProfile(tools, user);
+      }
+
+      return user;
+    }
+  }
 }
 
 export { CreateUserUseCase };

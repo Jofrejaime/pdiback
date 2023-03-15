@@ -1,19 +1,21 @@
 import {  ILanguageDTO } from '../../../dtos/ILanguageDTO';
 import { prisma } from "../../../../prisma/clint";
 import { Language } from "@prisma/client";
+import { AppError } from '../../../../errors/AppErrors';
 class CreateLanguageUseCase {
   async execute({
-value,
    label,
    icon_url
   }: ILanguageDTO): Promise<Language> {
-     const countryAlreadyExists = await prisma.area.findUnique({
+    console.log(label)
+
+     const languageAlreadyExists = await prisma.language.findUnique({
       where: {
-          label
+           label
       },
     });
-    if (countryAlreadyExists) {
-      throw new Error("Country Already Exists!");
+    if (languageAlreadyExists) {
+      throw new AppError("Language Already Exists!");
     }
     const language = await prisma.language.create({
       data: {

@@ -1,5 +1,6 @@
 import fs from "fs-extra";
 import { resolve } from "path";
+import { AppError } from "../errors/AppErrors";
 import { createDir } from "./createDir";
 export function moveFile(
   file: Express.Multer.File | undefined,
@@ -15,21 +16,17 @@ export function moveFile(
     const dest = createDir(`users/${dirName}/profile/`);
     const destFinal = `${dest}/${filename}`;
     const fileMoved = fs.move(src, destFinal.toString(), (err) => {
-      if (err) console.error(err, " ficheiro não movido ", destFinal);
-      console.log("Ficheiro movido em", destFinal);
-     
-    });
-    console.log(fileMoved, " final");
-    return `${dirName}/profile/${filename}`;
+      if (err) throw new AppError(" Ficheiro não movido ");});
+     return `/users/${dirName}/profile/${filename}`;
   } else if (projectTitle && !isProfile && file) {
     const filename = file.filename;
     const src = `${resolve("uploads")}/${filename}`;
     const preDest = createDir(`${dirName}/projects/${projectTitle}`);
     const dest = `${preDest}/${filename}`;
     fs.move(src, dest, (err) => {
-      if (err) console.error(err, " ficheiro não movido");
-      console.log(" ficheiro do projecto movido");
-      return `${dirName}/projects/${projectTitle}/${filename}`;
+      if (err) throw new AppError("ficheiro não movido");
+      
+      return `/users/${dirName}/projects/${projectTitle}/${filename}`;
     });
     return dest;
   } else if (
@@ -44,11 +41,9 @@ export function moveFile(
     const src = `${resolve("uploads")}/${file.filename}`;
     const preDest = createDir(`${dirName}/${other}/${nameOther}`);
     const dest = `${preDest}/${filename}`;
-    console.log(dest)
-    fs.move(src, dest.toString(), (err) => {
-      if (err) return console.log(err, "Não moveu o ficheiro");
-      console.log("fircheiro movido");
+        fs.move(src, dest.toString(), (err) => {
+      if (err) throw new AppError("Não moveu o ficheiro");
     });
-    return `${dirName}/${other}/${nameOther}/${filename}`;
+    return `/${dirName}/${other}/${nameOther}/${filename}`;
   }
 }

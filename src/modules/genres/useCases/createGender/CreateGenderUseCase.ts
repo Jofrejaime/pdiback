@@ -1,6 +1,7 @@
 import { IGrenreDTO } from "../../../dtos/IGenreDTO";
 import { prisma } from "../../../../prisma/clint";
 import { Gender } from "@prisma/client";
+import { AppError } from "../../../../errors/AppErrors";
 class CreateGenderUseCase {
   async execute({
     id,
@@ -13,7 +14,7 @@ class CreateGenderUseCase {
       },
     });
     if (genderAlreadyExists) {
-      throw new Error("Country Already Exists!");
+      throw new AppError("Country Already Exists!");
     }
 
  

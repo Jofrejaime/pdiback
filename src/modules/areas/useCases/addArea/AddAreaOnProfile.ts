@@ -2,9 +2,8 @@ import {User } from "@prisma/client";
 import { prisma } from "../../../../prisma/clint";
 export function AddAreaOnProfile(areas: undefined[], user: User) {
   if (areas) {
-    const areasAdded: string[] = areas.toString().split(",");
-
-    areasAdded.map(
+    console.log(areas, 'puted')
+    areas.toString().split(',').map(
       async (area) =>
         await prisma.profile.update({
           where: { userId: user.id },
