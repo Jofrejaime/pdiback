@@ -21,11 +21,11 @@ export class AuthenticateUserUseCase {
       where: { userName: userName }
     });
     if (!user) {
-      throw new AppError("username or passwor area incorrect");
+      throw new AppError("username or password area incorrect");
     }
     const passwordMatch = await compare(password, user.password);
     if (!passwordMatch) {
-      throw new AppError("Email or passwor are incoret!");
+      throw new AppError("Email or password are incoret!");
     }
     const token = sign({}, "ba16da3f64afdf9f0b38ad895009fe2f", {
       subject: user.id,

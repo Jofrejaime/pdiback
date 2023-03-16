@@ -175,7 +175,7 @@ model AreaofProfile {
 }
 
 model LinkOfProfile {
-  Areas     Link?    @relation(fields: [linkName], references: [name])
+  Link     Link?    @relation(fields: [linkName], references: [name])
   linkName  String
   Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String

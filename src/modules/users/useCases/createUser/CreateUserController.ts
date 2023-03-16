@@ -36,7 +36,7 @@ class CreateUserController {
       User,
       userId,
       tools,
-      userName: userName[1].toString(),
+      userName,
     });
        
     return response.status(201).json(result);

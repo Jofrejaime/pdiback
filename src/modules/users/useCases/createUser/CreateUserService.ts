@@ -28,6 +28,7 @@ class CreateUserUseCase {
     uploadedPhoto,
     userName,
   }: ICreateUserDTO): Promise<User> {
+    console.log(tools, areas, languages)
     const userAlreadyExists = await prisma.user.findUnique({
       where: {
         email, 

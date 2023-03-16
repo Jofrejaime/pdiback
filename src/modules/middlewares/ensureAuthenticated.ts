@@ -20,7 +20,30 @@ export async function ensureAutenticated(
     const user = await prisma.user.findUnique({
       where: { id: userId?.toString() },
       include: {
-        profile: true,
+        profile: {
+          include: {
+            AreaofProfile: {
+              include: {
+                Area: true,
+              },
+            },
+            LanguageOfProfile: {
+              include: {
+                Language: true,
+              },
+            },
+            LinksOfProfile: {
+              include: {
+                'Link': true
+              },
+            },
+            ToolofProfile: {
+              include: {
+                'Tool': true,
+              },
+            },
+          },
+        },
         projects: true,
       },
     });
