@@ -7,7 +7,6 @@ const listUsers = new ListUsersController();
 const createUserController = new CreateUserController();
 const upload = multer({ storage: storage});
 const userRoutes = Router();
-
 userRoutes.post("/", upload.single('file'), createUserController.handle);
 userRoutes.get("/", listUsers.handle);
 export {userRoutes};

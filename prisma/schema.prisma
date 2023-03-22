@@ -83,54 +83,21 @@ model Project {
   userId            String
   title             String              @unique
   description       String
-  images            Image[]
-  videos            Video[]
-  audios            Audio[]
+  files             String
   respository_url   String
   Comment           Comment[]
   Stars             Star[]
   created_at        DateTime            @default(now())
   updated_at        DateTime            @updatedAt
   LanguageOfProject LanguageOfProject[]
-  ProjectRepository ProjectRepository?
+  projectRepository String
   AreaOfProject     AreaOfProject[]
   ToolOfProject     ToolOfProject[]
-
   @@map("projects")
 }
 
-model Image {
-  id        String   @id @default(uuid())
-  order     Int
-  url       String   @unique
-  Project   Project? @relation(fields: [projectId], references: [id])
-  projectId String?
-
-  @@map("images")
-}
-
-model Video {
-  id        String  @id @default(uuid())
-  order     Int
-  url       String  @unique
-  project   Project @relation(fields: [projectId], references: [id])
-  projectId String
-
-  @@map("videos")
-}
-
-model Audio {
-  id        String  @id @default(uuid())
-  order     Int
-  url       String  @unique
-  project   Project @relation(fields: [projectId], references: [id])
-  projectId String
-
-  @@map("audios")
-}
-
 model LanguageOfProject {
-  Project       Project? @relation(fields: [projectId], references: [id])
+  Project       Project?  @relation(fields: [projectId], references: [id])
   projectId     String
   Language      Language? @relation(fields: [languageLabel], references: [label])
   languageLabel String
@@ -157,13 +124,6 @@ model Language {
   @@map("languages")
 }
 
-model ProjectRepository {
-  Project   Project? @relation(fields: [projectId], references: [id])
-  projectId String   @unique
-  link      String
-
-  @@id([projectId, link])
-}
 
 model AreaofProfile {
   Area      Area?    @relation(fields: [areaLabel], references: [label])
@@ -175,7 +135,7 @@ model AreaofProfile {
 }
 
 model LinkOfProfile {
-  Link     Link?    @relation(fields: [linkName], references: [name])
+  Link      Link?    @relation(fields: [linkName], references: [name])
   linkName  String
   Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String
@@ -205,7 +165,7 @@ model Area {
 model ToolOfProject {
   Project   Project? @relation(fields: [projectId], references: [id])
   projectId String
-  Toll      Tool?   @relation(fields: [toolLabel], references: [label])
+  Toll      Tool?    @relation(fields: [toolLabel], references: [label])
   toolLabel String
 
   @@id([projectId, toolLabel])

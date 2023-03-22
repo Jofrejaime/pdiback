@@ -11,6 +11,7 @@ import { link } from "fs";
 import { linkRoutes } from "./link.routes";
 import { authenticateRoutes } from "./authenticate.routes";
 import { ensureRoutes } from "./ensureRoutes";
+import { projectRoutes } from "./project.routes";
 const routes = Router()
 routes.use('/user', userRoutes)
 routes.use("/list", findRoutes)
@@ -23,4 +24,5 @@ routes.use('/tool', toolRoutes);
 routes.use('/link', linkRoutes)
 routes.use(authenticateRoutes)
 routes.use(ensureRoutes)
+routes.use('/project', projectRoutes)
 export {routes}

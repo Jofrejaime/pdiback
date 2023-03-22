@@ -21,11 +21,10 @@ export function moveFile(
   } else if (projectTitle && !isProfile && file) {
     const filename = file.filename;
     const src = `${resolve("uploads")}/${filename}`;
-    const preDest = createDir(`${dirName}/projects/${projectTitle}`);
+    const preDest = createDir(`users/${dirName}/projects/${projectTitle}`);
     const dest = `${preDest}/${filename}`;
     fs.move(src, dest, (err) => {
       if (err) throw new AppError("ficheiro não movido");
-      
       return `/users/${dirName}/projects/${projectTitle}/${filename}`;
     });
     return dest;
@@ -45,5 +44,6 @@ export function moveFile(
       if (err) throw new AppError("Não moveu o ficheiro");
     });
     return `/${dirName}/${other}/${nameOther}/${filename}`;
-  }
+  }else
+  return ''
 }
