@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import { CreateLanguageController } from "../modules/languages/useCases/createLanguage/CreateLanguageComtroller";
-import { ListLanguageController } from "../modules/languages/useCases/listLanguage/ListAreasControllers";
+import { ListLanguageController } from "../modules/languages/useCases/listLanguage/ListLanguageControllers";
 import { storage } from "../utilities/multerConfig";
 const languageRoutes = Router();
 const createLanguage = new CreateLanguageController()

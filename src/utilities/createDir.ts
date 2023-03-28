@@ -6,8 +6,7 @@ export function createDir(nameDir: string): string {
 
   fs.mkdirs(dir, (err) => {
     if (err) throw new AppError(" pasta não criada");
-    console.log("a pasta foi criada");
-    return dir;
+    return '/'+nameDir ;
   });
-  return dir;
+  return '/'+nameDir ;
 }

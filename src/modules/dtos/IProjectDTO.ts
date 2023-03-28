@@ -9,17 +9,15 @@ import {
 import { File } from "buffer";
 
 export interface IProjectDTO {
-  
-    userId: string;
+  id: string;
+  userId: string;
   title: string;
   description: string;
-  respository_url: string;
-  Comment?: string;
+  repository: string;
+  Comment: string;
   Stars?: string;
   LanguageOfProject: undefined[] | undefined;
-  projectRepository: string;
   AreaOfProject: undefined[] | undefined;
   ToolOfProject: undefined[] | undefined;
-  files:  string
- 
+  files: string;
 }

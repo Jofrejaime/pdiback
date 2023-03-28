@@ -6,7 +6,6 @@ class ListAreaUseCase {
     const allAreas = await prisma.area.findMany({
      
     });
-    console.dir(allAreas, { depth: null });
     return allAreas;
   }
 }

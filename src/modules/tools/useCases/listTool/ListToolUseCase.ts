@@ -6,7 +6,6 @@ class ListToolUseCase {
     const allTool = await prisma.tool.findMany({
      
     });
-    console.dir(allTool, { depth: null });
     return allTool;
   }
 }

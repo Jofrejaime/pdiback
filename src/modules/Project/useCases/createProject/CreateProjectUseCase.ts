@@ -9,9 +9,8 @@ class CreateProjectUseCase {
     userId,
     title,
     description,
-    respository_url,
+    repository,
     LanguageOfProject,
-    projectRepository,
     AreaOfProject,
     ToolOfProject,
     files
@@ -20,9 +19,8 @@ class CreateProjectUseCase {
       userId,
       title,
       description,
-      respository_url,
+      repository,
       LanguageOfProject,
-      projectRepository,
       AreaOfProject,
       ToolOfProject
     );
@@ -32,8 +30,7 @@ class CreateProjectUseCase {
         userId,
         title,
         description,
-        respository_url,
-        projectRepository,
+        repository,
         files
       },
     });
@@ -42,7 +39,7 @@ class CreateProjectUseCase {
       AddLanguageOnProject(LanguageOfProject, project);
       AddToolOnProject(ToolOfProject, project);
     }
-
+    console.log(project, ' criou o projecto')
     return project;
   }
 }

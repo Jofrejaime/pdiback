@@ -4,9 +4,7 @@ class ListLanguageUseCase {
   async execute(): Promise<Language[]> {
     
     const allLanguage = await prisma.language.findMany({
-     
     });
-    console.dir(allLanguage, { depth: null });
     return allLanguage;
   }
 }

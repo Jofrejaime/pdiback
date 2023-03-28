@@ -16,16 +16,15 @@ interface IResponse {
 }
 export class AuthenticateUserUseCase {
   async execute({ password, userName }: IRequest): Promise<IResponse> {
-    console.log(password, ' pass')
     const user = await prisma.user.findUnique({
       where: { userName: userName }
     });
     if (!user) {
-      throw new AppError("username or password area incorrect");
+      throw new AppError("user or password are incorrect");
     }
     const passwordMatch = await compare(password, user.password);
     if (!passwordMatch) {
-      throw new AppError("Email or password are incoret!");
+      throw new AppError("user or password are incorrect!");
     }
     const token = sign({}, "ba16da3f64afdf9f0b38ad895009fe2f", {
       subject: user.id,

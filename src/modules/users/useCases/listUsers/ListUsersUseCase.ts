@@ -13,7 +13,6 @@ class ListUsersUseCase {
         projects: true,
       },
     });
-    console.dir(allUsers, { depth: null });
     return allUsers;
   }
 }
