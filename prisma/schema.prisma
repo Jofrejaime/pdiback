@@ -70,7 +70,7 @@ model Gender {
 
 model Star {
   user      User?   @relation(fields: [userId], references: [id])
-  userId    String  @unique
+  userId    String
   project   Project @relation(fields: [projectId], references: [id])
   projectId String
 

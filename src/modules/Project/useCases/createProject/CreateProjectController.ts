@@ -18,7 +18,6 @@ class CreateProjectController {
       AreaOfProject,
       ToolOfProject,
     } = request.body;
-  console.log(request.body)
     const createProject = new CreateProjectUseCase();
     const user = prisma.user.findUnique({
       where: { userName: userName },

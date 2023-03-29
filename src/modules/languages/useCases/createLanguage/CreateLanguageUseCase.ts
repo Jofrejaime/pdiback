@@ -7,7 +7,7 @@ class CreateLanguageUseCase {
    label,
    icon_url
   }: ILanguageDTO): Promise<Language> {
-    console.log(label)
+    
 
      const languageAlreadyExists = await prisma.language.findUnique({
       where: {

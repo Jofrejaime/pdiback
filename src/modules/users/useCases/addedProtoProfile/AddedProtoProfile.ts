@@ -5,7 +5,6 @@ import { createDir } from "../../../../utilities/createDir";
 import { moveFile } from "../../../../utilities/moveFiles";
 
 export async function addPhotoProfile (photoProfile: Express.Multer.File, user: User ){
-console.log(photoProfile)
   let url: string | undefined;
   if (photoProfile) {  
   url = moveFile(photoProfile, user.userName,true)

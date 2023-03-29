@@ -4,7 +4,6 @@ class ViewOnProjectController {
   async handle(request: Request, response: Response) {
     const {   viewerName,
       projectId } = request.params;
-    console.log(request.params); 
     const viewOnProject = new ViewOnProjectUseCase();
     const result = await viewOnProject.execute({  viewerName,
       projectId });

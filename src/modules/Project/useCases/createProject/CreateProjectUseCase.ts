@@ -15,16 +15,7 @@ class CreateProjectUseCase {
     ToolOfProject,
     files
   }: IProjectDTO): Promise<Project> {
-    console.log(
-      userId,
-      title,
-      description,
-      repository,
-      LanguageOfProject,
-      AreaOfProject,
-      ToolOfProject
-    );
-
+    
     const project = await prisma.project.create({
       data: {
         userId,
@@ -39,7 +30,6 @@ class CreateProjectUseCase {
       AddLanguageOnProject(LanguageOfProject, project);
       AddToolOnProject(ToolOfProject, project);
     }
-    console.log(project, ' criou o projecto')
     return project;
   }
 }

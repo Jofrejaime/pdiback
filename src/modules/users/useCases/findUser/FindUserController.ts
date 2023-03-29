@@ -5,7 +5,6 @@ class FindUserController {
      const {userName} =  request.body;
       const users = new FindUserUseCase();
     const findedUser = await users.execute(userName) 
-    console.log(findedUser)
       return response.status(200).json(findedUser)
   }
 }

@@ -28,7 +28,6 @@ class CreateUserUseCase {
     uploadedPhoto,
     userName,
   }: ICreateUserDTO): Promise<User> {
-    console.log(tools, areas, languages)
     const userAlreadyExists = await prisma.user.findUnique({
       where: {
         email, 
@@ -59,7 +58,7 @@ class CreateUserUseCase {
         addPhotoProfile(uploadedPhoto, user);
       } else if (uploadedPhoto && !user) {
       await fs.remove(`${resolve("uploads/")}/${uploadedPhoto.filename}`)
-          .then(() => console.log("Removido com succeo"))
+          .then(() => console.log("Removido com sucesso"))
           .catch((e) => console.log("Não removeu nada"));
       }
       if (user) {

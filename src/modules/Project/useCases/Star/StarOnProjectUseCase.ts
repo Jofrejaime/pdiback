@@ -1,8 +1,9 @@
 import { IProjectDTO } from "../../../dtos/IProjectDTO";
 import { prisma } from "../../../../prisma/clint";
-import { Project } from "@prisma/client";
+import { Project, Star } from "@prisma/client";
+import { compare } from "bcrypt";
 class StarOnProjectUseCase {
-  async execute({ id, userId }: any): Promise<Project> {
+  async execute({ id, userId }: any): Promise<Star[]|undefined> {
     const star = await prisma.star.findUnique({
       where: {
         userId_projectId: {
@@ -12,21 +13,17 @@ class StarOnProjectUseCase {
       },
     });
     if (!star) {
-      const project = await prisma.project.update({
-        where: { id },
+   await prisma.star.create({
         data: {
-          Stars: {
-            create: {
-              userId,
-            },
-          },
-        },
-        include: {
-          Stars: true,
+          projectId: id,
+          userId: userId,
         },
       });
-      
-    return project;
+     const project = await prisma.project.findUnique({
+      'where':{id},
+      'include':{Stars: true}
+     })
+      return project?.Stars;
     } else {
       const project = await prisma.project.update({
         where: { id },
@@ -40,11 +37,13 @@ class StarOnProjectUseCase {
             },
           },
         },
+        include: {
+          Stars: true,
+        },
       });
-      
-    return project;
-    }
 
+      return project.Stars;
+    }
   }
 }
 

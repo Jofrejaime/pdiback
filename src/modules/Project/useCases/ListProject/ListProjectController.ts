@@ -4,8 +4,10 @@ import { resolve } from "path";
 import { ListProjectUseCase } from "./ListProjectUseCase";
 class ListProjectController {
   async handle(request: Request, response: Response): Promise<Response> {
+    const {userName, area, language, label, limit} = request.body
+    console.log(request.body)
     const listProject = new ListProjectUseCase();
-    const allProject = await listProject.execute();
+    const allProject = await listProject.execute({userName, area, language, label, limit});
      
    const allFiles =  allProject.map( project =>  {
    const files =  fs.readdirSync(resolve('uploads') + project.files)
