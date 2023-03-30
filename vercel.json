@@ -1,0 +1,11 @@
+{
+  "name": "pdiback",
+  "version": 2,
+  "public": true,
+  "build":{
+    "script":"scr/server.ts",
+    "use":"@vercel/node"
+  },
+  "routes":[{"src":"src/routes/{.*}",
+  "dest": "scr/server.ts" }]
+}
