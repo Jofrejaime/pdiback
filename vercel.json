@@ -6,6 +6,6 @@
     "script":"scr/server.ts",
     "use":"@vercel/node"
   },
-  "routes":[{"src":"src/routes/{.*}",
+  "routes":[{"src":"(.*)",
   "dest": "scr/server.ts" }]
 }
