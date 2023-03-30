@@ -9,13 +9,14 @@ class ListProjectUseCase {
     limit,
   }: any): Promise<Project[]> {
     if ( area || label || limit || language) {
-      console.log(area, ' espe')
       const allProject = await prisma.project.findMany({
         where: {
-
-              'AreaOfProject':{'some':{'areaLabel':{'startsWith': area}}}, 
-              'OR':{'LanguageOfProject':{'some':{'Language':area}}}
+          'OR':{'AND':[{'AreaOfProject':{'some':{'areaLabel':{'startsWith': area}}}},
+          {'LanguageOfProject':{'some':{'languageLabel':{'startsWith': language}}}},
+          {'OR':[{'title':{'contains': label}},
+          {'user':{'userName':{'startsWith':label}}},{'ToolOfProject':{'some':{'toolLabel':{'startsWith':label}}}}]}]}
         },
+
         include: {
           AreaOfProject: true,
           LanguageOfProject: true,
@@ -40,10 +41,9 @@ class ListProjectUseCase {
           created_at: "asc",
         },
       });
-console.log(allProject)
       return allProject;
     } else if (userName) {
-      console.log(userName, " Aqui");
+    
       const allProject = prisma.project.findMany({
         where: { user: { userName } },
         include: {
@@ -72,7 +72,7 @@ console.log(allProject)
       });
       return allProject;
     } else {
-      console.log(" Puxando tudo ");
+    
       const allProject = prisma.project.findMany({
         include: {
           AreaOfProject: true,
