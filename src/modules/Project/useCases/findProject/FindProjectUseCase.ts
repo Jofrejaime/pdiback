@@ -1,4 +1,3 @@
-
 import { prisma } from "../../../../prisma/clint";
 import { Project } from "@prisma/client";
 import { AppError } from "../../../../errors/AppErrors";
@@ -9,16 +8,19 @@ class FindProjectUseCase {
       where: { id },
       include: {
         AreaOfProject: {
+          orderBy: { areaLabel: "asc" },
           include: {
             Area: true,
           },
         },
         LanguageOfProject: {
+          orderBy: { languageLabel: "asc" },
           include: {
             Language: true,
           },
         },
         ToolOfProject: {
+          orderBy: { toolLabel: "asc" },
           include: {
             Toll: true,
           },
@@ -38,7 +40,7 @@ class FindProjectUseCase {
             profile: true,
           },
         },
-        
+
         _count: true,
       },
     });

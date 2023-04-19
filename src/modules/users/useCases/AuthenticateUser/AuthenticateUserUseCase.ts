@@ -16,8 +16,9 @@ interface IResponse {
 }
 export class AuthenticateUserUseCase {
   async execute({ password, userName }: IRequest): Promise<IResponse> {
-    const user = await prisma.user.findUnique({
-      where: { userName: userName }
+    const user = await prisma.user.findFirst({
+      where: { userName: userName
+      },
     });
     if (!user) {
       throw new AppError("user or password are incorrect");

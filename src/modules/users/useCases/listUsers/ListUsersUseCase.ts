@@ -1,4 +1,3 @@
-import { Response, Request } from "express";
 import { prisma } from "../../../../prisma/clint";
 import { User } from "@prisma/client";
 class ListUsersUseCase {
@@ -8,9 +7,19 @@ class ListUsersUseCase {
         userName: "asc",
       },
       include: {
-        profile: true,
+        profile: {
+          include: {
+            _count: true,
+            'Follow': true,
+            ToolofProfile: true,
+            LanguageOfProfile: true,
+            Pais: true,
+            'AreaofProfile': true
+          },
+        },
         Star: true,
         projects: true,
+        _count: true,
       },
     });
     return allUsers;

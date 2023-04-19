@@ -5,9 +5,12 @@ import { DeleteProjectUseCase } from "./DeleteProjectUseCase";
 class DeleteProjectController {
   async handle(request: Request, response: Response):Promise<Response>{
      const {id} =  request.params;
+     
+    console.log(id)
       const project = new DeleteProjectUseCase();
     const deletedProject = await project.execute(id) 
     const removed =  fs.removeSync(resolve('uploads') + deletedProject.files)
+
       return response.status(200).json({deletedProject, removed})
   }
 }

@@ -11,17 +11,22 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  userName    String    @unique
-  password    String
-  email       String    @unique
-  profile     Profile?
-  projects    Project[]
-  starsNumber Int?
-  Star        Star[]
-  Comment     Comment[]
-  Seguir      Seguir[]
-  Views       View[]
+  id            String         @id @default(uuid())
+  userName      String         @unique
+  password      String
+  email         String         @unique
+  profile       Profile?
+  projects      Project[]
+  starsNumber   Int?
+  Star          Star[]
+  Comment       Comment[]
+  Views         View[]
+  Following     Follow[]
+  Messages      Message[]
+  Actions       Notification[] @relation(name: "issuer")
+  Notifications Notification[] @relation(name: "receiver")
+
+  MemberToConversation MemberToConversation[]
 
   @@map("users")
 }
@@ -44,7 +49,7 @@ model Profile {
   LinksOfProfile    LinkOfProfile[]
   LanguageOfProfile LanguageOfProfile[]
   ToolofProfile     ToolofProfile[]
-  Seguir            Seguir[]
+  Follow            Follow[]
 
   @@map("profiles")
 }
@@ -69,10 +74,11 @@ model Gender {
 }
 
 model Star {
-  user      User?   @relation(fields: [userId], references: [id])
-  userId    String
-  project   Project @relation(fields: [projectId], references: [id])
-  projectId String
+  user       User?    @relation(fields: [userId], references: [id])
+  userId     String
+  project    Project  @relation(fields: [projectId], references: [id])
+  projectId  String
+  created_at DateTime @default(now())
 
   @@id([userId, projectId])
   @@map("stars")
@@ -221,13 +227,15 @@ model BannedAccount {
   @@map("bannedaccounts")
 }
 
-model Seguir {
-  Segidor    User?    @relation(fields: [seguidorId], references: [id])
-  seguidorId String
-  Seguindo   Profile? @relation(fields: [seguindoId], references: [id])
-  seguindoId String
+model Follow {
+  Follower    User?    @relation(fields: [followerId], references: [id])
+  followerId  String
+  Following   Profile? @relation(fields: [followingId], references: [id])
+  followingId String
+  created_at  DateTime @default(now())
 
-  @@id([seguidorId, seguindoId])
+  @@id([followerId, followingId])
+  @@map("follow")
 }
 
 model View {
@@ -238,4 +246,45 @@ model View {
   viewerName String
 
   @@map("views")
+}
+
+model MemberToConversation {
+  member         User         @relation(fields: [memberId], references: [id])
+  memberId       String
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId String 
+  @@id([memberId, conversationId])
+}
+
+model Conversation {
+  id                   String                 @id @default(uuid())
+  Messages             Message[]
+  created_at           DateTime               @default(now())
+  MemberToConversation MemberToConversation[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id            String        @id @default(uuid())
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId String
+  issuer        User?         @relation(fields: [userId], references: [id])
+  userId        String
+  content       String
+  created_at    DateTime      @default(now())
+
+  @@map("messages")
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  content    String
+  Receiver   User?    @relation(name: "receiver", fields: [receiverId], references: [id])
+  receiverId String
+  issuer     User?    @relation(name: "issuer", fields: [issuerId], references: [id])
+  issuerId   String
+  created_at DateTime @default(now())
+
+  @@map("notifications")
 }

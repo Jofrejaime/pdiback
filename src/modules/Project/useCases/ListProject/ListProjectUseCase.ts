@@ -8,20 +8,41 @@ class ListProjectUseCase {
     label,
     limit,
   }: any): Promise<Project[]> {
-    if ( area || label || limit || language) {
+    if (area || label || limit || language) {
       const allProject = await prisma.project.findMany({
         where: {
-          'OR':{'AND':[{'AreaOfProject':{'some':{'areaLabel':{'startsWith': area}}}},
-          {'LanguageOfProject':{'some':{'languageLabel':{'startsWith': language}}}},
-          {'OR':[{'title':{'contains': label}},
-          {'user':{'userName':{'startsWith':label}}},{'ToolOfProject':{'some':{'toolLabel':{'startsWith':label}}}}]}]}
+          OR: {
+            AND: [
+              { AreaOfProject: { some: { areaLabel: { startsWith: area } } } },
+              {
+                LanguageOfProject: {
+                  some: { languageLabel: { startsWith: language } },
+                },
+              },
+              {
+                OR: [
+                  { title: { contains: label } },
+                  { user: { userName: { startsWith: label } } },
+                  {
+                    ToolOfProject: {
+                      some: { toolLabel: { startsWith: label } },
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         },
 
         include: {
-          AreaOfProject: true,
-          LanguageOfProject: true,
+          AreaOfProject: {'orderBy':{}},
+          LanguageOfProject: {'orderBy':{'languageLabel':'asc'}},
           Stars: true,
-          ToolOfProject: true,
+          ToolOfProject: {'orderBy':{'toolLabel': 'asc'}},
+          '_count': true,
+          'Views':{
+            'include':{'Viewer':true}
+          },
           Comment: {
             include: {
               User: {
@@ -38,19 +59,18 @@ class ListProjectUseCase {
           },
         },
         orderBy: {
-          created_at: "asc",
+          created_at: "desc",
         },
       });
       return allProject;
     } else if (userName) {
-    
       const allProject = prisma.project.findMany({
         where: { user: { userName } },
         include: {
-          AreaOfProject: true,
-          LanguageOfProject: true,
+          AreaOfProject: {'orderBy':{'areaLabel':'asc'}},
+          LanguageOfProject: {'orderBy':{'languageLabel':'asc'}},ToolOfProject: {'orderBy':{'toolLabel': 'asc'}},
           Stars: true,
-          ToolOfProject: true,
+          _count: true,
           Comment: {
             include: {
               User: {
@@ -67,18 +87,18 @@ class ListProjectUseCase {
           },
         },
         orderBy: {
-          created_at: "asc",
+          created_at: "desc",
         },
       });
       return allProject;
     } else {
-    
       const allProject = prisma.project.findMany({
         include: {
-          AreaOfProject: true,
-          LanguageOfProject: true,
+          AreaOfProject: {'orderBy':{}},
+          LanguageOfProject: {'orderBy':{'languageLabel':'asc'}},
           Stars: true,
-          ToolOfProject: true,
+          ToolOfProject: {'orderBy':{'toolLabel': 'asc'}},
+          '_count': true,
           Comment: {
             include: {
               User: {
@@ -95,7 +115,7 @@ class ListProjectUseCase {
           },
         },
         orderBy: {
-          created_at: "asc",
+          created_at: "desc",
         },
       });
       return allProject;
