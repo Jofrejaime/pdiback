@@ -34,12 +34,9 @@ class DeleteProjectUseCase {
    
     const project = await prisma.project.delete({'where':{id}})
 
-    if (!project) {
+    if (!project)
       throw new AppError("Project not Exists");
-      console.log('aqio')
-    }
-    
-    console.log(id, project, findedProject, )
+     
     return project;
   }}
 }

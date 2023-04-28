@@ -3,10 +3,7 @@ import { Link } from "@prisma/client";
 class ListLinkUseCase {
   async execute(): Promise<Link[]> {
     
-    const allLinks = await prisma.link.findMany({
-     
-    });
-    console.dir(allLinks, { depth: null });
+    const allLinks = await prisma.link.findMany();
     return allLinks;
   }
 }

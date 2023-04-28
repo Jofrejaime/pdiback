@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 import { AppError } from "../../errors/AppErrors";
 import { prisma } from "../../prisma/clint";
-
 export async function ensureAutenticated(
   request: Request,
   response: Response,
@@ -17,11 +16,16 @@ export async function ensureAutenticated(
   const [, token] = authHeader.split(" ");
   try {
     const { sub: userId } = verify(token, "ba16da3f64afdf9f0b38ad895009fe2f");
+    console.log(userId);
     const user = await prisma.user.findUnique({
       where: { id: userId?.toString() },
       include: {
         _count: true,
-        'Following':{'include': {'Following':{'include':{'User':{'include':{'projects':true}}}}}},
+        Following: {
+          include: {
+            Following: { include: { User: { include: { projects: true } } } },
+          },
+        },
         profile: {
           include: {
             _count: true,
@@ -35,14 +39,9 @@ export async function ensureAutenticated(
                 Language: true,
               },
             },
-            LinksOfProfile: {
-              include: {
-                'Link': true
-              },
-            },
             ToolofProfile: {
               include: {
-                'Tool': true,
+                Tool: true,
               },
             },
           },

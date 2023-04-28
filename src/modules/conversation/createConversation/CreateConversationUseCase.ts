@@ -2,7 +2,7 @@ import { prisma } from "../../../prisma/clint";
 import { Conversation, MemberToConversation } from "@prisma/client";
 class CreateConversationUseCase {
   async execute(members: any): Promise<Conversation[] | undefined> {
-    console.log(members);
+
 
     const conversation1 = await prisma.conversation.findMany({
       where: { MemberToConversation: { some: { memberId: members[0] } } }

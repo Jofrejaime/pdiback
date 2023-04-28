@@ -5,9 +5,10 @@ export function AddLinkOnProfile(links:undefined[], user: User, href: string){
   if(links){
     links.toString().split(',').map(async link => await  prisma.profile.update({
       'where':{'userId': user.id},
-      data:{'LinksOfProfile': {
+      data:{'LinksToProfile': {
         'create':{
-          'linkName': link,
+          'name': '',
+         'username': link
         }
       }
     }

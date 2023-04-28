@@ -46,7 +46,7 @@ model Profile {
   Pais              Pais?               @relation(fields: [paisLabel], references: [label])
   paisLabel         String?
   AreaofProfile     AreaofProfile[]
-  LinksOfProfile    LinkOfProfile[]
+  LinksToProfile    LinksToProfile[]
   LanguageOfProfile LanguageOfProfile[]
   ToolofProfile     ToolofProfile[]
   Follow            Follow[]
@@ -141,13 +141,14 @@ model AreaofProfile {
   @@id([areaLabel, profileId])
 }
 
-model LinkOfProfile {
-  Link      Link?    @relation(fields: [linkName], references: [name])
-  linkName  String
+model LinksToProfile {
+  Link      Link?    @relation(fields: [username], references: [label])
+  label     String
+  username  String
   Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String
 
-  @@id([profileId, linkName])
+  @@id([label, username])
 }
 
 model AreaOfProject {
@@ -198,13 +199,17 @@ model ToolofProfile {
 }
 
 model Link {
-  id            String          @id @default(uuid())
-  name          String          @unique
-  src           String
-  href          String
-  LinkOfProfile LinkOfProfile[]
+  value          String           @id @default(uuid())
+  label          String           @unique
+  url            String
+  icon           String
+  LinksToProfile LinksToProfile[]
 
   @@map("links")
+}
+
+model nada {
+  value String @id @default(uuid())
 }
 
 model Comment {
@@ -249,10 +254,11 @@ model View {
 }
 
 model MemberToConversation {
-  member         User         @relation(fields: [memberId], references: [id])
+  member         User          @relation(fields: [memberId], references: [id])
   memberId       String
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
-  conversationId String 
+  conversationId String
+
   @@id([memberId, conversationId])
 }
 
@@ -266,13 +272,13 @@ model Conversation {
 }
 
 model Message {
-  id            String        @id @default(uuid())
+  id             String        @id @default(uuid())
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String
-  issuer        User?         @relation(fields: [userId], references: [id])
-  userId        String
-  content       String
-  created_at    DateTime      @default(now())
+  issuer         User?         @relation(fields: [userId], references: [id])
+  userId         String
+  content        String
+  created_at     DateTime      @default(now())
 
   @@map("messages")
 }

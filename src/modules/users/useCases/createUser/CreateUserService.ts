@@ -1,36 +1,19 @@
-import { ICreateUserDTO } from "../../../dtos/IUserRepository";
 import { prisma } from "../../../../prisma/clint";
 import { User } from "@prisma/client";
 import { hash } from "bcrypt";
-import { createDir } from "../../../../utilities/createDir";
-import { moveFile } from "../../../../utilities/moveFiles";
-import { AddAreaOnProfile } from "../../../areas/useCases/addArea/AddAreaOnProfile";
-import { AddLanguageOnProfile } from "../../../languages/useCases/AddLanguage/AddLanguageOnProfile";
-import { AddToolOnProfile } from "../../../tools/useCases/AddTool/AddToolOnProfile";
 import { AppError } from "../../../../errors/AppErrors";
-import { addPhotoProfile } from "../addedProtoProfile/AddedProtoProfile";
-import fs, { remove } from "fs-extra";
-import { resolve } from "path";
-
 class CreateUserUseCase {
   async execute({
     email,
     lastName,
     firstName,
-    bio,
-    genderName,
     paisLabel,
-    languages,
-    areas,
-    links,
-    tools,
     password,
-    uploadedPhoto,
     userName,
-  }: ICreateUserDTO): Promise<User> {
+  }: any): Promise<User> {
     const userAlreadyExists = await prisma.user.findUnique({
       where: {
-        email, 
+        email,
       },
     });
     if (userAlreadyExists) {
@@ -48,12 +31,19 @@ class CreateUserUseCase {
               lastName,
               firstName,
               paisLabel,
-              genderName: genderName,
             },
           },
         },
       });
+      return user;
+    }
+  }
+}
 
+export { CreateUserUseCase };
+
+/**
+ * 
       if (uploadedPhoto && user) {
         addPhotoProfile(uploadedPhoto, user);
       } else if (uploadedPhoto && !user) {
@@ -67,9 +57,4 @@ class CreateUserUseCase {
         AddToolOnProfile(tools, user);
       }
 
-      return user;
-    }
-  }
-}
-
-export { CreateUserUseCase };
+ */

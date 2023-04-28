@@ -7,15 +7,14 @@ class ListUsersUseCase {
         userName: "asc",
       },
       include: {
-        profile: {
-          include: {
-            _count: true,
+        profile:{
+          'include':{
+            'AreaofProfile': true,
+            'LanguageOfProfile':true,
             'Follow': true,
-            ToolofProfile: true,
-            LanguageOfProfile: true,
-            Pais: true,
-            'AreaofProfile': true
-          },
+            '_count': true,
+            'ToolofProfile': true,
+          }
         },
         Star: true,
         projects: true,
