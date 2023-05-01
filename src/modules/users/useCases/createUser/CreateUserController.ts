@@ -10,7 +10,6 @@ class CreateUserController {
       firstName,
       password
     } = request.body;
-    console.log(request.body)
     const createUserUseCase = new CreateUserUseCase();     
     const result = await createUserUseCase.execute({
       password,

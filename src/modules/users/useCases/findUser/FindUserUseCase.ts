@@ -14,6 +14,7 @@ class FindUserUseCase {
         profile: {
           include: {
             LanguageOfProfile: { include: { Language: true } },
+            LinksToProfile:{'include':{'Link':true}},
             AreaofProfile: {
               include: { Area: true },
             },

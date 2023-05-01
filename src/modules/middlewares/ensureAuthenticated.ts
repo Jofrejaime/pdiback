@@ -16,7 +16,6 @@ export async function ensureAutenticated(
   const [, token] = authHeader.split(" ");
   try {
     const { sub: userId } = verify(token, "ba16da3f64afdf9f0b38ad895009fe2f");
-    console.log(userId);
     const user = await prisma.user.findUnique({
       where: { id: userId?.toString() },
       include: {
@@ -39,6 +38,7 @@ export async function ensureAutenticated(
                 Language: true,
               },
             },
+            'LinksToProfile':{'include':{'Link':true}},
             ToolofProfile: {
               include: {
                 Tool: true,

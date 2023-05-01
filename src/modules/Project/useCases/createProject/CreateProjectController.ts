@@ -31,7 +31,6 @@ class CreateProjectController {
       return response.status(202).json(files);
     }
     else if(userId){
-      console.log('criando projecto...')
      files = createDir(`users/${userName}/projects/${title}`);
     const result = await createProject.execute({
       userId,

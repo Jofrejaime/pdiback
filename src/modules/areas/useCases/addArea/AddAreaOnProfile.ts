@@ -1,19 +1,23 @@
-import {User } from "@prisma/client";
+import { Area, User } from "@prisma/client";
 import { prisma } from "../../../../prisma/clint";
-export function AddAreaOnProfile(areas: undefined[], user: User) {
+import { AppError } from "../../../../errors/AppErrors";
+export function AddAreaOnProfile(areas: Area[], user: User) {
   if (areas) {
-    areas.toString().split(',').map(
+    try{areas.map(
       async (area) =>
         await prisma.profile.update({
           where: { userId: user.id },
           data: {
             AreaofProfile: {
               create: {
-                areaLabel: area,
+                areaLabel: area.label,
               },
             },
           },
         })
-    );
+    );}catch(e){
+      throw new AppError('Algo deu errado')
+    }
+    
   }
 }

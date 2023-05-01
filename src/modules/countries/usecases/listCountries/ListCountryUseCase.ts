@@ -8,7 +8,6 @@ class ListCountryUseCase {
         label: 'asc'
       }
        });
-    console.dir(allCountries, { depth: null });
     return allCountries;
   }
 }

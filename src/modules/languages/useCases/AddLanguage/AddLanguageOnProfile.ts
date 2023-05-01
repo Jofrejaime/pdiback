@@ -1,18 +1,22 @@
-import {  User } from "@prisma/client";
+import {  Language, User } from "@prisma/client";
 import { prisma } from "../../../../prisma/clint";
+import { AppError } from "../../../../errors/AppErrors";
 
-export function AddLanguageOnProfile(languages:undefined[], user: User){
+export function AddLanguageOnProfile(languages:Language[], user: User){
   if(languages){
-    languages.toString().split(',').map(async language => await  prisma.profile.update({
+    try{languages.map(async language => await  prisma.profile.update({
       'where':{'userId': user.id},
       data:{'LanguageOfProfile': {
         'create':{
-          'languageLabel': language
+          'languageLabel': language.label
         }
       }
     }
       }
- ) )
+ ) )}catch(err){
+  throw new AppError('Algumama coisa deu errado')
+ }
+    
 }
 
 }
