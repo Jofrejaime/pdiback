@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node-modules src/server.ts",
     "vercel-build": "npx prisma migrate deploy",
-    "build": "tsup src"
+    "build": "tsup src",
+   "start":"node dist/server.js"
   },
   "keywords": [],
   "author": "",
