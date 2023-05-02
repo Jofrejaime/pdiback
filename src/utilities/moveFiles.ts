@@ -13,6 +13,7 @@ export function moveFile(
   if (isProfile && dirName && file) {
     const filename = file.filename;
     const src = resolve("uploads",file.filename)
+    console.log(src)
     const dest = createDir(`users/${dirName}/profile/`);
     const destFinal = `${dest}/${filename}`;
     const fileMoved = fs.move(src, resolve("uploads")+destFinal.toString(), (err) => {
@@ -22,7 +23,7 @@ export function moveFile(
   } else if (projectTitle && !isProfile && file) {
     const filename = file.filename;
     const src = resolve("uploads",filename);
- 
+ console.log(src)
     const preDest = createDir(`users/${dirName}/projects/${projectTitle}`);
     const dest = `${preDest}/${filename}`;
     fs.move(src, resolve('uploads')+dest, (err) => {
@@ -39,7 +40,8 @@ export function moveFile(
     nameOther
   ) {
     const filename = file.filename;
-    const src = `${resolve("uploads")}/${file.filename}`;
+    const src = `${resolve("uploads", file.filename)}`;
+    console.log(src)
     const preDest = createDir(`${dirName}/${other}/${nameOther}`);
     const dest = `${preDest}/${filename}`;
     fs.move(src, resolve("uploads")+dest.toString(), (err) => {
