@@ -6,7 +6,6 @@ import { AppError } from "./errors/AppErrors";
 import { app, serverHttp } from "./http";
 import path, { resolve } from "path";
 
-console.log(path.resolve('uploads////ik', 'ui'))
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
