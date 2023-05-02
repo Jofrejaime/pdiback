@@ -28,6 +28,7 @@ class CreateProjectController {
     }
     if (!userId && file) {
       files = moveFile(file, userName, false, title);
+      console.log(files)
       return response.status(202).json(files);
     }
     else if(userId){

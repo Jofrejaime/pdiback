@@ -6,6 +6,7 @@ class UpdateImageController{
   async handle(req: Request, res: Response){
     const file = req.file
     const {id} = req.params
+    console.log(file, id)
     const useFile =  new UpdateImageUseCase()
     
     const fileFinal = useFile.execute({file, id})
