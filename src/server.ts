@@ -4,7 +4,6 @@ import cors from "cors";
 import { routes } from "./routes";
 import { AppError } from "./errors/AppErrors";
 import { app, serverHttp } from "./http";
-import path, { resolve } from "path";
 
 app.use(cors());
 app.use(express.json());
