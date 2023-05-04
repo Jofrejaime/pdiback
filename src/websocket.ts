@@ -1,7 +1,11 @@
+import express from "express";
+import http from "http";
 import { Server } from "socket.io";
-import { serverHttp } from "./http";
+const app = express();
+const  serverHttp = http.createServer(app);
 const io = new Server(serverHttp, { cors: {} });
 import { Comment, Message, Notification } from "@prisma/client";
+
 
 interface RoomUser {
   socketId: string;
@@ -54,3 +58,4 @@ io.on("connection", (socket: any) => {
     io.emit("notification", data);
   });
 });
+export {serverHttp}
