@@ -35,6 +35,7 @@ class ListProjectUseCase {
         },
 
         include: {
+         
           AreaOfProject: {'orderBy':{}},
           LanguageOfProject: {'orderBy':{'languageLabel':'asc'}},
           Stars: true,

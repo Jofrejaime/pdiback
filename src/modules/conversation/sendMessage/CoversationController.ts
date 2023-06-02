@@ -7,6 +7,7 @@ class ConversationController {
   
     const c_conversation = new ConversationUseCase();
     const result = await c_conversation.execute({ userId,conversation, content });
+   
     return response.status(201).json(result);
   }
 }

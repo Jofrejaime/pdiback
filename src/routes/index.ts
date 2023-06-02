@@ -12,15 +12,19 @@ import { ensureRoutes } from "./ensureRoutes";
 import { projectRoutes } from "./project.routes";
 import { messageRoutes } from "./message.routes";
 import { notificationRoutes } from "./notification.routes";
+import { starRoutes } from "./stars.routes";
+import { viewRoutes } from "./views.routes";
 const routes = Router()
 routes.use('/user', userRoutes)
 routes.use('/files',express.static("uploads") )
 routes.use('/country', countryRoutes);
 routes.use('/genre', genderRoutes);
 routes.use('/area', areaRoutes);
+routes.use('/star', starRoutes)
 routes.use('/language', languageRoutes)
 routes.use('/tool', toolRoutes);
 routes.use('/link', linkRoutes)
+routes.use('/view', viewRoutes)
 routes.use(authenticateRoutes)
 routes.use(ensureRoutes)
 routes.use('/project', projectRoutes)
