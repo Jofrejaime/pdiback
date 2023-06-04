@@ -3,7 +3,8 @@ import { prisma } from "../../../prisma/clint";
 
 class ListarDenunciasUseCase {
   async execute(): Promise<Denuncias[]> {
-    return await prisma.denuncias.findMany();
+    const listarDenuncias = await prisma.denuncias.findMany();
+    return listarDenuncias;
   }
 }
 export { ListarDenunciasUseCase };

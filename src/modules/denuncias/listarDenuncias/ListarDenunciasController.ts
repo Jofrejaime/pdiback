@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 import { ListarDenunciasUseCase } from "./ListarDenunciasUseCase";
-
 class ListarDenunciasController {
-  async handle(res: Response, req: Request) {
-    const newList = new ListarDenunciasUseCase();
-    const list = await newList.execute();
-    return res.status(200).json(list);
+  async handle(request: Request, response: Response): Promise<Response> {
+    const listarDenuncias = new ListarDenunciasUseCase();
+    const all = await listarDenuncias.execute();
+    return response.json(all);
   }
 }
+
 export { ListarDenunciasController };

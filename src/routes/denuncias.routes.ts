@@ -1,0 +1,13 @@
+import { Router } from "express";
+import { ListarDenunciasController } from "../modules/denuncias/listarDenuncias/ListarDenunciasController";
+import { ListarDenunciasUseCase } from "../modules/denuncias/listarDenuncias/ListarDenunciasUseCase";
+import { CriarDenunciaController } from "../modules/denuncias/criarDenuncias/CriarDenunciaControllers";
+import { EliminarDenunciaController } from "../modules/denuncias/eliminarDenuncias/EliminarDenunciaController";
+const denunciaRoutes = Router();
+const listarDenuncias = new ListarDenunciasController();
+const criarDenuncia = new CriarDenunciaController();
+const eliminarDenuncia = new EliminarDenunciaController();
+denunciaRoutes.get("/", listarDenuncias.handle);
+denunciaRoutes.post("/", criarDenuncia.handle);
+denunciaRoutes.delete("/:id", eliminarDenuncia.handle);
+export { denunciaRoutes };

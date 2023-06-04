@@ -3,11 +3,11 @@ import { EliminarDenunciaUseCase } from "./EliminarDenunciaUseCase";
 import reactStringReplace from "react-string-replace";
 
 class EliminarDenunciaController {
-  async handle(req: Request, res: Response) {
+  async handle(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const newEliminarDenuncia = new EliminarDenunciaUseCase();
     const eliminarDenuncia = await newEliminarDenuncia.execute({ id });
-    return res.status(201).json(eliminarDenuncia);
+    return res.status(200).json(eliminarDenuncia);
   }
 }
 export { EliminarDenunciaController };
