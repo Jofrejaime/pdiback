@@ -1,17 +1,43 @@
-import { User } from "@prisma/client"
-import { AppError } from "../../../../errors/AppErrors"
-import { prisma } from "../../../../prisma/clint"
+import { User } from "@prisma/client";
+import { AppError } from "../../../../errors/AppErrors";
+import { prisma } from "../../../../prisma/clint";
 
-class DeleteUserUseCase{
-async execute({id}: any): Promise<User>{
-
-  const user = await prisma.user.findUnique({'where':{id}, include:{profile:true}})
-  if(!user)
-  throw new AppError('User not exists')
-  const updateUser = prisma.user.update({'where':{id}, 'data':{'Actions':{'deleteMany':{'receiverId':id, 'OR':{'issuerId': id}}}, 'Comment':{'deleteMany':{'userId':id}}, 'Views':{'deleteMany':{'viewerName':user.userName}}, 'MemberToConversation':{'deleteMany':{'memberId':id}}, 'Messages':{'deleteMany':{'userId':id}}, 'projects':{'deleteMany':{'userId':id}}, 'Notifications':{'deleteMany':{'issuerId':id, OR:{'receiverId':id}}}, 'Following':{'deleteMany':{'followerId':id, followingId: user.profile?.id}}, 'Star':{'deleteMany':{'userId':id}}}})
-  await prisma.profile.update({'where':{userId: id}, 'data':{'AreaofProfile':{'deleteMany':{'profileId':user.profile?.id}}, 'Follow':{'deleteMany':{'followerId':id, followingId: user.profile?.id}},'LanguageOfProfile':{'deleteMany':{'profileId':user.profile?.id}}, 'LinksToProfile':{'deleteMany':{'profileId':user.profile?.id}}, 'ToolofProfile':{'deleteMany':{'profileId':user.profile?.id}}}})
-  await prisma.profile.delete({'where':{id: user.profile?.id}})
-  return prisma.user.delete({'where':{id}})
+class DeleteUserUseCase {
+  async execute({ id }: any): Promise<User> {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: { profile: true },
+    });
+    await prisma.memberToConversation.deleteMany({ where: { memberId: id } });
+    await prisma.conversation.deleteMany({
+      where: { MemberToConversation: { some: { memberId: id } } },
+    });
+    await prisma.linksToProfile.deleteMany({
+      where: { profileId: user?.profile?.id },
+    });
+    await prisma.toolofProfile.deleteMany({
+      where: { profileId: user?.profile?.id },
+    });
+    await prisma.languageOfProfile.deleteMany({
+      where: { profileId: user?.profile?.id },
+    });
+    await prisma.areaofProfile.deleteMany({
+      where: { profileId: user?.profile?.id },
+    });
+    await prisma.languageOfProject.deleteMany({
+      where: { Project: { userId: id } },
+    });
+    await prisma.toolOfProject.deleteMany({
+      where: { Project: { userId: id } },
+    });
+    await prisma.areaOfProject.deleteMany({
+      where: { Project: { userId: id } },
+    });
+    await prisma.project.deleteMany({ where: { userId: id } });
+    await prisma.comment.deleteMany({ where: { Project: { userId: id } } });
+    await prisma.denuncias.deleteMany({ where: { project: { userId: id } } });
+    const deleteUser = await prisma.user.delete({ where: { id } });
+    return deleteUser;
+  }
 }
-}
-export {DeleteUserUseCase}
+export { DeleteUserUseCase };
